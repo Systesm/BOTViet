@@ -19,7 +19,9 @@
     "babel-preset-es2015": "^6.24.1",
     "body-parser": "^1.15.0",
     "cheerio": "^1.0.0-rc.2",
+    "eslint": "^4.6.1",
     "express": "^4.13.4",
+    "fb-bot-framework": "^0.3.0",
     "messaging-api-messenger": "^0.3.1",
     "mongodb": "^2.2.31",
     "node-babel": "^0.1.2",
@@ -36,7 +38,10 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.4.3",
-    "cross-env": "^5.0.5"
+    "cross-env": "^5.0.5",
+    "eslint": "^4.6.1",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-react": "^7.3.0"
   },
   "ava": {
     "babel": "inherit"
