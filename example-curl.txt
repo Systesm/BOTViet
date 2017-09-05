@@ -1,0 +1,96 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "recipient": {
+    "id": "1030963747006127"
+  },
+  "message": {
+    "text": "hello, world!"
+  }
+}' "https://graph.facebook.com/v2.6/me/messages?access_token=EAAQvnj85ZBqUBACZClF31l0NrocaxR0cwJ2KFxqc7GKMTZAekEeFF6lyopM92EDAw1cl9LnFoKmFqdhXZAxOtbJh6qN245CqxUOyAFENJoiMvnpxOyofiwV32YUSnTzh1V5fcXEU7PVdxTuvgZCarQynybGeO0rU1PavzNy89XgkVJEOrTwZAE"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "recipient":{
+    "id":"1030963747006127"
+  }, 
+  "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "list",
+        "top_element_style": "compact",
+        "elements": 
+        [
+          {
+            "title": "Classic T-Shirt Collection",
+            "subtitle": "See all our colors",
+            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
+            "buttons": [
+              {
+                "title": "View",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+              }
+            ]
+          },
+          {
+            "title": "Classic White T-Shirt",
+            "subtitle": "See all our colors",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            }
+          },
+          {
+            "title": "Classic Blue T-Shirt",
+            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
+            "subtitle": "100% Cotton, 200% Comfortable",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            },
+            "buttons": [
+              {
+                "title": "Shop Now",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+              }
+            ]        
+          }
+        ],
+         "buttons": [
+          {
+            "title": "View More",
+            "type": "postback",
+            "payload": "payload"            
+          }
+        ]  
+      }
+    }
+  }
+}' "https://graph.facebook.com/me/messages?access_token=EAAQvnj85ZBqUBACZClF31l0NrocaxR0cwJ2KFxqc7GKMTZAekEeFF6lyopM92EDAw1cl9LnFoKmFqdhXZAxOtbJh6qN245CqxUOyAFENJoiMvnpxOyofiwV32YUSnTzh1V5fcXEU7PVdxTuvgZCarQynybGeO0rU1PavzNy89XgkVJEOrTwZAE"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "setting_type" : "domain_whitelisting",
+  "whitelisted_domains" : ["https://petersfancyapparel.com","https://peterssendreceiveapp.ngrok.io"],
+  "domain_action_type": "add"
+}' "https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAAQvnj85ZBqUBACZClF31l0NrocaxR0cwJ2KFxqc7GKMTZAekEeFF6lyopM92EDAw1cl9LnFoKmFqdhXZAxOtbJh6qN245CqxUOyAFENJoiMvnpxOyofiwV32YUSnTzh1V5fcXEU7PVdxTuvgZCarQynybGeO0rU1PavzNy89XgkVJEOrTwZAE"
+
+
+curl -X GET "https://graph.facebook.com/v2.6/1030963747006127?fields=first_name,last_name,profile_pic&access_token=EAAQvnj85ZBqUBACZClF31l0NrocaxR0cwJ2KFxqc7GKMTZAekEeFF6lyopM92EDAw1cl9LnFoKmFqdhXZAxOtbJh6qN245CqxUOyAFENJoiMvnpxOyofiwV32YUSnTzh1V5fcXEU7PVdxTuvgZCarQynybGeO0rU1PavzNy89XgkVJEOrTwZAE"
+
+curl -X POST "https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=EAAQvnj85ZBqUBABS72ycmSFibkkZBNEaZCgJ2zvFsDeq80zoZBHJD6lGs2CdeFaQESVFWAzbmMIWZAZCOkFOKqQuMVzjl2FmtwubWdSUTVYX0O1m5exADG0BLotgoQ9tF5SW4uXepZBrZCkYopGuZCXpzUeAZAshje0Xbhby0iJK48FkbgMaf7fygZAPFUi3BwiPF0TocZAAH36DOAZDZD"
+
+https://www.facebook.com/v2.6/dialog/oauth?response_type=token&display=popup&client_id=1178256618945189&redirect_uri=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer%2Fcallback&scope=manage_pages%2Cpages_messaging%2Cpages_messaging_phone_number%2Cpages_messaging_subscriptions

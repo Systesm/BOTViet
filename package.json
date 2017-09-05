@@ -4,14 +4,41 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "babel-node ./tests/index.js",
+    "start": "nodemon ./server/index.js --exec babel-node",
+    "build": "babel src -d server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
+    "ava": "^0.22.0",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
     "body-parser": "^1.15.0",
+    "cheerio": "^1.0.0-rc.2",
     "express": "^4.13.4",
     "messaging-api-messenger": "^0.3.1",
-    "request": "^2.71.0"
+    "mongodb": "^2.2.31",
+    "node-babel": "^0.1.2",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-syntax-async-functions": "^6.1.4",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-regenerator": "^6.1.4",
+    "babel-polyfill": "^6.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.4.3",
+    "cross-env": "^5.0.5"
+  },
+  "ava": {
+    "babel": "inherit"
   }
 }
