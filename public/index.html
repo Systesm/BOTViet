@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>BOTViet</title>
+        <style>
+            html, body {
+                margin: 0;
+            }
+            .hopeBox {
+                padding-top: 100px;
+                top: 150px;
+                position: absolute;
+                left: 0;
+                border-radius: 5px;
+                right: 0;
+                width: 500px;
+                height: 180px;
+                text-align: center;
+                margin: 0 auto;
+                background: #FFF;
+                box-shadow: 1px 5px 20px #888988;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hopeBox">
+            <div class="fb-send-to-messenger" 
+            messenger_app_id="1178256618945189" 
+            page_id="1863165543925150" 
+            data-ref="PASS_THROUGH_PARAM" 
+            color="blue" 
+            size="xlarge">
+            </div> 
+        </div>
+    </body>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+        appId: "1178256618945189",
+        xfbml: true,
+        version: "v2.6"
+        });
+
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    </script>
+</html>

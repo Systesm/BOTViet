@@ -93,4 +93,6 @@ curl -X GET "https://graph.facebook.com/v2.6/1030963747006127?fields=first_name,
 
 curl -X POST "https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=EAAQvnj85ZBqUBABS72ycmSFibkkZBNEaZCgJ2zvFsDeq80zoZBHJD6lGs2CdeFaQESVFWAzbmMIWZAZCOkFOKqQuMVzjl2FmtwubWdSUTVYX0O1m5exADG0BLotgoQ9tF5SW4uXepZBrZCkYopGuZCXpzUeAZAshje0Xbhby0iJK48FkbgMaf7fygZAPFUi3BwiPF0TocZAAH36DOAZDZD"
 
+manage_pages,pages_messaging,pages_messaging_phone_number,pages_messaging_subscriptions,pages_messaging,business_management
+
 https://www.facebook.com/v2.6/dialog/oauth?response_type=token&display=popup&client_id=1178256618945189&redirect_uri=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer%2Fcallback&scope=manage_pages%2Cpages_messaging%2Cpages_messaging_phone_number%2Cpages_messaging_subscriptions
