@@ -1,15 +1,8 @@
-import { MessengerClient } from "messaging-api-messenger";
 import util from "util";
 import { EventEmitter } from "events";
 import request from "request";
-import UserFbModel from "../models/userfb";
-import MessagesModel from "../models/messages";
-import Helpers from "../helpers"
+import { Webhook as WebhookHelper, Charters } from "../helpers";
 
-//Token Dynamic - Len Mongodb se doi
-const client = MessengerClient.connect(
-  "EAAQvnj85ZBqUBAAlFoWpC4EE3YRqaYEInDKtMwgK2Edl4oWDEPVaC20F1PWVTRZCzwyjUWablReuuGYuxKZCEwWDSpGfyXyxuSyrZCfzbA8SEAyQPAjCBdTKF6SvZCgM25jUIZBoVpFeerE4quZAJcIkj0WKLljuRtwwCepdffBdAZDZD"
-);
 class FBBotFramework {
   constructor(options, cb) {
     if (!options) {
@@ -29,199 +22,41 @@ class FBBotFramework {
 
     if (cb) cb(null);
 
-    const getstarted = [
-      {
-        content: "Chào mừng bạn đã trò chuyện cùng tôi :D",
-      },
-      {
-        content: "Bạn cần tôi giúp gì không?"
-      }
-    ]
-    
     //Normal
-    this.on("message", function(userId, message, fanpageId) {
-      (async () => {
-        try {
-          let convertVi = Helpers.findVietChart(message)
-          console.log(convertVi)
-          let theText = await MessagesModel.find({
-            pageId: fanpageId,
-            message: message
-          }).exec();
-          if (theText.length === 0) {
-            client.sendRawBody({
-              recipient: {
-                id: userId,
-              },
-              message: {
-                attachment:{
-                  type: "template",
-                  payload:{
-                    template_type:"button",
-                    text: "Câu lệnh chưa thiết lập",
-                    buttons:[
-                      {
-                        type: 'postback',
-                        title: 'Tìm hiểu BOTViet',
-                        payload: 'WHAT_IS_BOTVIET',
-                      }
-                    ]
-                  }
-                }
-              }
-            })
-          } else {
-            theText.forEach(function(text) {
-              client.sendText(userId, text.content);
-            }, this);
-          }
-
-          let check = await UserFbModel.findOne({
-            userId: userId
-          }).count();
-          if (check === 0) {
-            let ProfileUser = await client.getUserProfile(userId);
-            let Data = {
-              firstName: ProfileUser.first_name,
-              lastName: ProfileUser.last_name,
-              avatar: ProfileUser.profile_pic,
-              locale: ProfileUser.locale,
-              gender: ProfileUser.gender,
-              userId: userId,
-              fanpageId: fanpageId
-            };
-            let insert = await new UserFbModel(Data).save();
-            console.log("We have a new User!");
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+    this.on("message", async (userId, message, fanpageId) => {
+      try {
+        let receivelowcase = Charters.findVietChart(message);
+        await WebhookHelper.setToken(fanpageId);
+        await WebhookHelper.sendMessage(receivelowcase, userId, fanpageId);
+        await WebhookHelper.addUser(fanpageId, userId);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     //Khi click vao 'Send to messenger'
-    this.on("sendtomessenger", function(userId,fanpageId) {
-      
-      (async () => {
-        try {
-          await client.sendRawBody({
-            recipient: {
-              id: userId,
-            },
-            message: {
-              attachment:{
-                type: "template",
-                payload:{
-                  template_type:"button",
-                  text: "Chào bạn, bạn có thể click button dưới đây để sử dụng BOT",
-                  buttons:[
-                    {
-                      type: 'postback',
-                      title: 'BOTViet là gì?',
-                      payload: 'WHAT_IS_BOTVIET',
-                    }
-                  ]
-                }
-              }
-            }
-          })
-
-          let check = await UserFbModel.findOne({
-            userId: userId
-          }).count();
-          if (check === 0) {
-            let ProfileUser = await client.getUserProfile(userId);
-            let Data = {
-              firstName: ProfileUser.first_name,
-              lastName: ProfileUser.last_name,
-              avatar: ProfileUser.profile_pic,
-              locale: ProfileUser.locale,
-              gender: ProfileUser.gender,
-              userId: userId,
-              fanpageId: fanpageId
-            };
-            let insert = await new UserFbModel(Data).save();
-            console.log("We have a new User!");
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+    this.on("sendtomessenger", async (userId, fanpageId) => {
+      try {
+        await WebhookHelper.setToken(fanpageId);
+        await WebhookHelper.sendMessage(null, userId, fanpageId, "getstarted");
+        await WebhookHelper.addUser(fanpageId, userId);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     //Khi click vao button
-    this.on("postback", function(userId, payload) {
-      // Send quick replies
-      console.log("Userid: " + userId);
-      console.log(payload);
-      let postpack = [
-        {
-          payload: "WHAT_IS_BOTVIET",
-          message: {
-            text: "BOTViet được thành lập vào năm 2017, bởi Viettech Solutions, lý do BOTViet được sinh ra là để giúp các doanh nghiệp quản lý khách hàng dể hơn."
-          }
-        },
-        {
-          payload: "WHAT_IS_BOTVIET",
-          message: {
-            attachment:{
-              type: "template",
-              payload:{
-                template_type:"button",
-                text: "Ví dụ: Khi doanh nghiệp của bạn đang bận hợp, không ai quản lý Fanpage. Thì lúc đó BOTViet sẽ 'chat' với khách hàng giúp cho bạn.",
-                buttons:[
-                  {
-                    type: 'postback',
-                    title: 'Tại sao sử dụng BOTViet?',
-                    payload: '5454',
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          payload: "5454",
-          message: {
-            text: "BOTViet sẽ làm giúp những công việc của bạn, và mau sớm đạt được thành công theo ý nguyện của bạn."
-          }
-        }
-      ];
-      let thepayload = payload
-
-      postpack.forEach(function(payload) {
-
-        if(payload.payload == thepayload){
-          client.sendRawBody({
-              recipient: {
-                id: userId
-              },
-              message: payload.message
-          })
-        }
-
-      }, this);
-
+    this.on("postback", async (userId, payload, fanpageId) => {
+      try {
+        await WebhookHelper.setToken(fanpageId);
+        await WebhookHelper.sendMessage(payload, userId, fanpageId, "postback");
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     // Setup listener for quick reply messages
-    this.on("quickreply", function(userId, payload) {
-      // Send quick replies
-      console.log("Userid: " + userId);
-      console.log(payload);
-      client.sendText(userId, "Hi there");
-      (async () => {
-        try {
-          let check = await userManager.ifOdd({ id: userId }, "usersfb");
-          if (check === false) {
-            let ProfileUser = await client.getUserProfile(userId);
-            await userManager.addUser(ProfileUser, "usersfb");
-          }
-        } catch (error) {
-          console.log("Error: " + error);
-        }
-      })();
-    });
+    this.on("quickreply", async (userId, payload) => {});
   }
 
   verify(req, res) {

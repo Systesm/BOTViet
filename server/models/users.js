@@ -4,41 +4,38 @@ mongoose.Promise = Promise
 
 const Schema = mongoose.Schema
 
-const messagesSchema = new Schema(
+const UsersSchema = new Schema(
 	{
 		fanpageId: {
 			type: Number,
 			required: true
 		},
-		type: {
-			type: String
-		},
-		method: {
+		token: {
 			type: String,
 			required: true
 		},
-		receive: {
-			type: String,
-			text: true,
-			required: true
-		},
-		receivelowcase: {
-			type: String,
-			text: true,
-			required: true
-		},
-		text: {
+		firstName: {
 			type: String,
 			required: true
 		},
-		image: {
-			type: String
+		lastName: {
+			type: String,
+			required: true
 		},
-		payload: {
-			type: Array
+		locale: {
+			type: String,
+			required: true
+		},
+		gender: {
+			type: String,
+			required: true
+		},
+		userId: {
+			type: Number,
+			required: true
 		}
 	},
-	{ collection: "messages", timestamps: true }
+	{ collection: "users", timestamps: true }
 )
 
-export default mongoose.model("messages", messagesSchema)
+export default mongoose.model("users", UsersSchema)
